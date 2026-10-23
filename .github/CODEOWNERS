@@ -1,0 +1,10 @@
+# Default owner — every PR.
+* @MartinCastroAlvarez
+
+# The injection and permission boundary: review carefully.
+/django_admin_skills/sanitize.py @MartinCastroAlvarez
+/django_admin_skills/render.py   @MartinCastroAlvarez
+/django_admin_skills/writer.py   @MartinCastroAlvarez
+/django_admin_skills/api.py      @MartinCastroAlvarez
+/SECURITY.md                     @MartinCastroAlvarez
+/.github/                        @MartinCastroAlvarez

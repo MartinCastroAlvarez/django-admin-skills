@@ -1,0 +1,170 @@
+[tool.poetry]
+name = "django-admin-skills"
+version = "0.1.0"
+description = "Generate Agent Skills (SKILL.md + references/) for Claude Code, Codex, OpenCode and Gemini CLI from your Django admin — per-user permissions, schema only, prompt-injection hardened."
+authors = ["Martín Castro Álvarez <martincastro.10.5@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/MartinCastroAlvarez/django-admin-skills"
+repository = "https://github.com/MartinCastroAlvarez/django-admin-skills"
+documentation = "https://github.com/MartinCastroAlvarez/django-admin-skills#readme"
+keywords = [
+    "django",
+    "django-admin",
+    "agent-skills",
+    "skill-md",
+    "claude-code",
+    "codex",
+    "ai-agents",
+    "llm",
+    "mcp",
+    "code-generation",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Framework :: Django :: 6.1",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: Site Management",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+packages = [{ include = "django_admin_skills" }]
+include = [
+    { path = "LICENSE", format = ["sdist", "wheel"] },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+# Django LTS range: 4.2 LTS → 5.0 → 5.1 → 5.2 LTS → 6.0 → 6.1. Bump the upper
+# bound when 7.0 ships and the CI matrix passes.
+django = ">=4.2,<7.0"
+# The admin graph is this package's only source of truth.
+# TODO(pypi): django-admin-graph is not on PyPI yet. Switch to
+#   django-admin-graph = "^0.1.0"
+# once it is published — PyPI rejects direct-URL dependencies, and
+# .github/workflows/publish.yml refuses to publish while this git pin remains.
+django-admin-graph = { git = "https://github.com/MartinCastroAlvarez/django-admin-graph.git", rev = "f907ce77ab76a48d97f64729fda39c953af442ab" }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0"
+pytest-django = "^4.8"
+pytest-cov = ">=5,<8"
+ruff = ">=0.6"
+mypy = "^1.10 || ^2.0"
+django-stubs = { version = ">=5.0", extras = ["compatible-mypy"] }
+bandit = "^1.7"
+pip-audit = "^2.7"
+pyyaml = "^6.0"
+
+[build-system]
+requires = ["poetry-core>=1.6.0"]
+build-backend = "poetry.core.masonry.api"
+
+# --------------------------------------------------------------------------- #
+# Ruff — lint + format
+# --------------------------------------------------------------------------- #
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["tests/test_project/migrations"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",       # pycodestyle
+    "F",            # pyflakes
+    "I",            # isort
+    "B",            # bugbear
+    "S",            # bandit-style security
+    "DJ",           # django-specific
+    "UP",           # pyupgrade
+    "SIM",          # simplify
+    "RET",          # returns
+    "PIE",          # misc
+]
+ignore = [
+    "S101",   # asserts are fine in tests
+    "DJ001",  # nullable charfield warning — opt-in elsewhere
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S105", "S106", "S107", "E501"]
+"examples/**/*.py" = ["S101", "DJ001"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+known-first-party = ["django_admin_skills", "tests"]
+
+# --------------------------------------------------------------------------- #
+# Pytest
+# --------------------------------------------------------------------------- #
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.test_project.settings"
+python_files = ["test_*.py", "*_test.py"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=django_admin_skills",
+    "--cov-report=term-missing",
+]
+testpaths = ["tests"]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:django.*",
+    # Django 5.0/5.1 warn about forms.URLField's default scheme — the test
+    # project's URLField, not this package.
+    "ignore:The default scheme will be changed:PendingDeprecationWarning",
+    "ignore:The default scheme will be changed:DeprecationWarning",
+]
+
+# --------------------------------------------------------------------------- #
+# MyPy
+# --------------------------------------------------------------------------- #
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "tests.test_project.settings"
+
+# --------------------------------------------------------------------------- #
+# Coverage
+# --------------------------------------------------------------------------- #
+[tool.coverage.run]
+branch = true
+source = ["django_admin_skills"]
+omit = ["*/migrations/*", "*/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
+
+# --------------------------------------------------------------------------- #
+# Bandit — the shipped package is the security-relevant code; tests and
+# examples are excluded.
+# --------------------------------------------------------------------------- #
+[tool.bandit]
+exclude_dirs = ["tests", "examples", ".venv", "node_modules", "build", "dist"]

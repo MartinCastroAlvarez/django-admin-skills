@@ -1,0 +1,15 @@
+name: Feature request
+description: Document something the admin graph already holds, or support another agent client.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What should the generated skill contain?
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Which graph field answers it?
+      description: The django-admin-graph node/field the value comes from. This package never reads the admin directly.

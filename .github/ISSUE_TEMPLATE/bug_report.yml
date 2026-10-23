@@ -1,0 +1,31 @@
+name: Bug report
+description: The generated skill is wrong, incomplete, or tells an agent something it should not.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The ModelAdmin (trimmed), the command you ran, and the generated SKILL.md / reference you got.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: django-admin-skills 0.1.0, Django 5.2, Python 3.12
+    validations:
+      required: true
+  - type: checkboxes
+    id: security
+    attributes:
+      label: Not a vulnerability
+      options:
+        - label: This does not expose models, fields, data or injectable text to an agent that should not see them (if it does, use a private security advisory instead).
+          required: true

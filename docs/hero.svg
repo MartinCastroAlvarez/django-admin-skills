@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f0a04b"/>
+    </marker>
+  </defs>
+  <style>
+    .title { font: 700 58px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #f5f7ff; }
+    .pitch { font: 400 25px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #aab3cc; }
+    .box   { fill: #131a33; stroke: #2a3558; stroke-width: 2; }
+    .acc   { fill: #2a1d0e; stroke: #f0a04b; stroke-width: 2.5; }
+    .lbl   { font: 600 20px 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: #f5f7ff; }
+    .sub   { font: 400 15px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #8f9bbb; }
+    .file  { font: 600 15px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #f5f7ff; }
+    .fsub  { font: 400 13px 'SFMono-Regular', Menlo, Consolas, monospace; fill: #8f9bbb; }
+    .line  { stroke: #f0a04b; stroke-width: 2.5; fill: none; }
+  </style>
+
+  <rect width="1280" height="640" fill="#0b1020"/>
+
+  <text x="80" y="118" class="title">django-admin-skills</text>
+  <text x="80" y="164" class="pitch">Agent Skills generated from your Django admin — per user, schema only, injection-hardened.</text>
+  <rect x="80" y="188" width="120" height="4" rx="2" fill="#f0a04b"/>
+
+  <!-- left: the graph -->
+  <rect x="80" y="262" width="220" height="96" rx="14" class="box"/>
+  <text x="104" y="300" class="lbl">AdminGraph</text>
+  <text x="104" y="330" class="sub">django-admin-graph</text>
+
+  <rect x="80" y="392" width="220" height="96" rx="14" class="box"/>
+  <text x="104" y="430" class="lbl">--as-user</text>
+  <text x="104" y="460" class="sub">ops-bot's perms</text>
+
+  <path d="M300 310 C 340 310, 340 372, 370 372" class="line" marker-end="url(#arrow)"/>
+  <path d="M300 440 C 340 440, 340 384, 370 384" class="line" marker-end="url(#arrow)"/>
+
+  <!-- middle: render -->
+  <rect x="374" y="318" width="200" height="120" rx="14" class="acc"/>
+  <text x="398" y="358" class="lbl">render_skill()</text>
+  <text x="398" y="388" class="sub">sanitize · quote</text>
+  <text x="398" y="412" class="sub">--check in CI</text>
+
+  <path d="M574 378 L 616 378" class="line" marker-end="url(#arrow)"/>
+
+  <!-- skill folder -->
+  <rect x="620" y="228" width="330" height="300" rx="16" class="box"/>
+  <text x="644" y="266" class="file">.claude/skills/shop-admin/</text>
+  <rect x="644" y="288" width="282" height="64" rx="8" class="acc"/>
+  <text x="664" y="316" class="file">SKILL.md</text>
+  <text x="664" y="338" class="fsub">name · description · rules</text>
+  <rect x="644" y="370" width="282" height="40" rx="8" class="box"/>
+  <text x="664" y="396" class="file">references/orders.order.md</text>
+  <rect x="644" y="420" width="282" height="40" rx="8" class="box"/>
+  <text x="664" y="446" class="file">references/catalog.item.md</text>
+  <text x="664" y="494" class="fsub">fields · choices · actions</text>
+
+  <path d="M950 378 L 996 378" class="line" marker-end="url(#arrow)"/>
+
+  <!-- right: agents and APIs -->
+  <rect x="1000" y="228" width="200" height="140" rx="14" class="box"/>
+  <text x="1022" y="264" class="lbl">Agents</text>
+  <text x="1022" y="294" class="sub">Claude Code</text>
+  <text x="1022" y="318" class="sub">Codex · OpenCode</text>
+  <text x="1022" y="342" class="sub">Gemini CLI</text>
+
+  <rect x="1000" y="392" width="200" height="136" rx="14" class="box"/>
+  <text x="1022" y="428" class="lbl">Admin APIs</text>
+  <text x="1022" y="458" class="sub">REST /admin-api/</text>
+  <text x="1022" y="482" class="sub">MCP  admin.* tools</text>
+  <text x="1022" y="506" class="sub">server re-checks</text>
+  <path d="M1100 368 L 1100 388" class="line" marker-end="url(#arrow)"/>
+
+  <text x="80" y="590" class="sub">manage.py admin_skills --out .claude/skills/shop-admin --as-user ops-bot [--check]</text>
+</svg>
